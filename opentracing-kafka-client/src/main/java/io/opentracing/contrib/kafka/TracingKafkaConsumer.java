@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalLong;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 import org.apache.kafka.clients.consumer.Consumer;
@@ -301,6 +301,11 @@ public class TracingKafkaConsumer<K, V> implements Consumer<K, V> {
   }
 
   @Override
+  public OptionalLong currentLag(TopicPartition topicPartition) {
+    return consumer.currentLag(topicPartition);
+  }
+
+  @Override
   public ConsumerGroupMetadata groupMetadata() {
     return consumer.groupMetadata();
   }
@@ -311,14 +316,13 @@ public class TracingKafkaConsumer<K, V> implements Consumer<K, V> {
   }
 
   @Override
-  public void close() {
-    consumer.close();
+  public void enforceRebalance(String s) {
+    consumer.enforceRebalance(s);
   }
 
   @Override
-  @Deprecated
-  public void close(long l, TimeUnit timeUnit) {
-    consumer.close(l, timeUnit);
+  public void close() {
+    consumer.close();
   }
 
   @Override
